@@ -46,7 +46,7 @@ export default function Home() {
           <form className="col-md-3   text-end">
             
           <a  href="/Login" className="btn btn-primary btn-sm px-4 login  w-30 h-30 me-md-2   fw-bold" >Login</a>
-          <a  href="/signup" className="btn btn-primary btn-sm px-4  w-30 h-30 me-md-2  fw-bold" >Sign up</a>
+          <a  href="/Signup" className="btn btn-primary btn-sm px-4  w-30 h-30 me-md-2  fw-bold" >Sign up</a>
         </form>
       </div>
     </div>
