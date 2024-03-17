@@ -13,3 +13,4 @@ const router = createBrowserRouter([
         element:<Login />
     }
 ])
+export default router;
