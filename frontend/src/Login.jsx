@@ -1,7 +1,7 @@
 
 const Login = () => {
     return(
-        <div className="modal modal-sheet position-static d-block bg-body-secondary p-4 py-md-5" tabIndex="-1" role="dialog" id="modalSignin">
+        <div className="modal modal-sheet back position-static d-block bg-body-secondary p-4 py-md-5" tabIndex="-1" role="dialog" id="modalSignin">
             <div className="modal-dialog" role="document">
                 <div className="modal-content rounded-4 shadow">
                 <div className="modal-header p-5 pb-4 border-bottom-0">
@@ -27,7 +27,7 @@ const Login = () => {
                         <svg className="bi me-1" width="16" height="16"><use xlinkHref="#twitter"></use></svg>
                         Sign in with Twitter
                     </button>
-                    <button className="w-100 py-2 mb-2 btn btn-outline-primary rounded-3" type="submit" >
+                    <button className="w-100 py-2 mb-2 btn btn-outline-secondary rounded-3" type="submit" >
                         <svg className="bi me-1" width="16" height="16"><use xlinkHref="#facebook"></use></svg>
                         Sign in with Facebook
                     </button>

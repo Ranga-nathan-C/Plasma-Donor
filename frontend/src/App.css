@@ -57,3 +57,12 @@ a  will-change: filter;
   padding: 5px 5px 5px 5px;
   margin-top: 3px;
 }
+
+.back{
+  margin: 0;
+  padding: 0;
+  background-image: url(./assets/stacked-waves-haikei.svg);
+  background-size: cover;
+  background-repeat: no-repeat;
+  height: 100vh;
+}
