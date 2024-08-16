@@ -1,0 +1,122 @@
+.login{
+  margin-left: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  margin-right: 10px;
+}
+
+.nav1{
+  background-color: rgba(0, 68, 255, 0.775);
+  border-radius: 10px;
+  width: 60px;
+  height: 35px;
+  padding: 5px 5px 5px 5px;
+  margin-top: 3px;
+}
+
+.back{
+  margin: 0;
+  padding: 0;
+  background-image: url(./assets/stacked-waves-haikei.svg);
+  background-size: cover;
+  background-repeat: no-repeat;
+  height: 100vh;
+}
+.back1{
+  background-color: rgba(255, 255, 255, 0.23);
+  /* position: fixed; */
+
+}
+.back2{
+  margin: 0;
+  padding: 0;
+  background-image: url(./assets/stacked-waves-haikei.svg);
+  background-size: cover;
+  background-repeat: no-repeat;
+  height:100vh;
+  
+}
+.sign{
+  text-decoration: none;
+}
+.modal-content{
+  margin-top: 50px;
+}
+.card-header {
+  font-weight: bold;
+}
+
+.card-body {
+  background-color: #f8f9fa;
+}
+
+.list-group-item {
+  background-color: #ffffff;
+}
+
+.list-group-item:hover {
+  background-color: #f1f1f1;
+}
+
+.card {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.text-center {
+  text-align: center;
+}
+
+#count-stats {
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+}
+
+.text-gradient {
+  background: linear-gradient(90deg, #ff6a00, #ee0979);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.bg-light {
+  background-color: #f8f9fa !important;
+}
+
+.shadow-blur {
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+}
+
+.border-radius-xl {
+  border-radius: 1rem;
+}
+
+.border {
+  border: 1px solid rgba(0, 0, 0, 0.125) !important;
+}
+.align{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  justify-items: center;
+  align-content: center;
+  height: 50%;
+  background-color: aliceblue;
+}
+
+
+@media (max-width: 768px) {
+  .text-sm {
+    font-size: 0.9rem;
+  }
+
+  h1.text-gradient {
+    font-size: 2rem;
+  }
+
+  h5 {
+    font-size: 1.25rem;
+  }
+}
+.round{
+  border-radius: 20px;
+}
