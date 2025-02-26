@@ -4,17 +4,17 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "start":"vite",
+    "start": "vite",
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
   "dependencies": {
-    "react": "^18.2.0",
+    "react": "^19.0.0",
     "react-bootstrap": "^2.10.4",
     "react-countup": "^6.5.3",
-    "react-dom": "^18.2.0"
+    "react-dom": "^19.0.0"
   },
   "devDependencies": {
     "@types/react": "^18.2.64",
