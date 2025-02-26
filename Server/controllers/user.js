@@ -1,3 +1,6 @@
+const multer = require("multer");
+const path = require("path");
+
 const {
   User,
   Profile,
@@ -55,27 +58,59 @@ exports.submitMedicalInfo = async (req, res) => {
   }
 };
 
-// Submit verification documents
-exports.submitVerification = async (req, res) => {
-  const { user_id } = req.params;
-  const { government_id_url, photograph_url, medical_certificate_url } =
-    req.body;
-  try {
-    const verification = await Verification.create({
-      user_id,
-      government_id_url,
-      photograph_url,
-      medical_certificate_url,
-      verification_status: "Pending",
-    });
-    res
-      .status(201)
-      .json({ message: "Verification submitted successfully", verification });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-};
 
+// Configure Multer for file uploads
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "uploads/"); // Save files in the "uploads" folder
+  },
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + path.extname(file.originalname)); // Rename file to avoid conflicts
+  },
+});
+
+const upload = multer({ storage });
+
+// Submit verification documents
+exports.submitVerification = [
+  upload.fields([
+    { name: "government_id", maxCount: 1 },
+    { name: "photograph", maxCount: 1 },
+    { name: "medical_certificate", maxCount: 1 },
+  ]),
+  async (req, res) => {
+    const { user_id } = req.params;
+
+    try {
+      // Get file paths
+      const government_id_url = req.files["government_id"]
+        ? `/uploads/${req.files["government_id"][0].filename}`
+        : null;
+      const photograph_url = req.files["photograph"]
+        ? `/uploads/${req.files["photograph"][0].filename}`
+        : null;
+      const medical_certificate_url = req.files["medical_certificate"]
+        ? `/uploads/${req.files["medical_certificate"][0].filename}`
+        : null;
+
+      // Save verification data to the database
+      const verification = await Verification.create({
+        user_id,
+        government_id_url,
+        photograph_url,
+        medical_certificate_url,
+        verification_status: "Pending",
+      });
+
+      res.status(201).json({
+        message: "Verification submitted successfully",
+        verification,
+      });
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  },
+];
 // Save community engagement data
 exports.saveCommunity = async (req, res) => {
   const { user_id } = req.params;

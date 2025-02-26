@@ -3,11 +3,28 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
 // Register a new user
+
 exports.register = async (req, res) => {
   const { full_name, email, phone_number, password, date_of_birth, gender } =
     req.body;
+
   try {
+    // Check if email already exists
+    const existingEmail = await User.findOne({ where: { email } });
+    if (existingEmail) {
+      return res.status(400).json({ error: "Email is already in use" });
+    }
+
+    // Check if phone number already exists
+    const existingPhone = await User.findOne({ where: { phone_number } });
+    if (existingPhone) {
+      return res.status(400).json({ error: "Phone number is already in use, Try to Login" });
+    }
+
+    // Hash the password
     const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Create the user
     const user = await User.create({
       full_name,
       email,
@@ -16,11 +33,13 @@ exports.register = async (req, res) => {
       date_of_birth,
       gender,
     });
+
     res.status(201).json({ message: "User registered successfully", user });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };
+
 
 // Login user
 exports.login = async (req, res) => {

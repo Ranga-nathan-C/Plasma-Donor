@@ -1,4 +1,13 @@
 {
+  "name": "server",
+  "version": "1.0.0",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
   "dependencies": {
     "bcryptjs": "^3.0.2",
     "dotenv": "^16.4.7",
@@ -10,5 +19,6 @@
   },
   "devDependencies": {
     "sequelize-cli": "^6.6.2"
-  }
+  },
+  "description": ""
 }
