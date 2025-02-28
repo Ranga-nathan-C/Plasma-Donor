@@ -6,7 +6,7 @@ const app = express();
 const cors = require("cors");
 
 app.use(express.json());
-app.use(cors({ origin: "http://127.0.0.1:5173" })); 
+app.use(cors()); 
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);

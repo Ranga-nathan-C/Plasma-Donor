@@ -15,6 +15,7 @@
     "express": "^4.21.2",
     "jsonwebtoken": "^9.0.2",
     "multer": "^1.4.5-lts.1",
+    "nodemon": "^3.1.9",
     "pg": "^8.13.3",
     "sequelize": "^6.37.5"
   },
