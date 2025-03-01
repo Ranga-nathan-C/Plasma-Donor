@@ -18,7 +18,9 @@ exports.register = async (req, res) => {
     // Check if phone number already exists
     const existingPhone = await User.findOne({ where: { phone_number } });
     if (existingPhone) {
-      return res.status(400).json({ error: "Phone number is already in use, Try to Login" });
+      return res
+        .status(400)
+        .json({ error: "Phone number is already in use, Try to Login" });
     }
 
     // Hash the password
@@ -40,7 +42,6 @@ exports.register = async (req, res) => {
   }
 };
 
-
 // Login user
 exports.login = async (req, res) => {
   const { email, password } = req.body;
@@ -51,11 +52,10 @@ exports.login = async (req, res) => {
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid)
       return res.status(401).json({ error: "Invalid password" });
-
-    const token = jwt.sign({ id: user.user_id }, process.env.JWT_SECRET, {
+    const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
       expiresIn: "1h",
     });
-    res.json({ token });
+    res.json({ token,user });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

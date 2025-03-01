@@ -1,21 +1,21 @@
 {
   "development": {
     "username": "postgres",
-    "password": "ruban",
+    "password": "Gowtham.psql",
     "database": "Plasma_database",
     "host": "127.0.0.1",
     "dialect": "postgres"
   },
   "test": {
     "username": "postgres",
-    "password": "ruban",
+    "password": "Gowtham.psql",
     "database": "Plasma_database_test",
     "host": "127.0.0.1",
     "dialect": "postgres"
   },
   "production": {
     "username": "postgres",
-    "password": "ruban",
+    "password": "Gowtham.psql",
     "database": "Plasma_database_prod",
     "host": "127.0.0.1",
     "dialect": "postgres"

@@ -8,6 +8,7 @@ import Profile from "../components/Registration/Profile";
 import Engagement from "../components/Registration/Engagement";
 import Eligibility from "../components/Registration/Eligibility";
 import Consent from "../components/Registration/Consent";
+import Dashboard from "../components/Dashboard/Dashboard";
 
 import Home2 from "../Home2";
 import ContactUs from "../ContactUs";
@@ -24,6 +25,10 @@ const router = createBrowserRouter([
   {
     path: "/Home2",
     element: <Home2 />,
+  },
+  {
+    path: "/dashboard",
+    element: <Dashboard />,
   },
   {
     path: "/ContactUs",

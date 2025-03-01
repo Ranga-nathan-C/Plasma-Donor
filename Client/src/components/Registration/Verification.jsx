@@ -39,9 +39,11 @@ const Verification = () => {
       if (!response.ok) {
         throw new Error("Failed to submit verification details");
       }
+      const data = await response.json();
 
       alert("Verification details submitted successfully!");
       window.location.href = "/Home2";
+      sessionStorage.setItem("user", JSON.stringify(data));
     } catch (error) {
       console.error("Error submitting form:", error);
       alert("An error occurred. Please try again.");

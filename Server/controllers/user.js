@@ -10,6 +10,67 @@ const {
   Verification,
 } = require("../models");
 
+exports.getUserDetails = async (req, res) => {
+  const { id } = req.params; // Extract id from request parameters
+
+  try {
+    // Fetch user details using 'id' (not user_id)
+    const user = await User.findByPk(id);
+    if (!user) return res.status(404).json({ message: "User not found" });
+
+    // Fetch profile and community details using the same 'id'
+    const profile = await Profile.findOne({ where: { user_id: id } });
+    const community = await Community.findOne({ where: { user_id: id } });
+
+    // Respond with user details, handling missing profile/ community
+    res.status(200).json({
+      name: user.full_name,
+      email: user.email,
+      phonenumber: user.phone_number,
+      dob: user.date_of_birth,
+      gender: user.gender,
+      address: profile?.address || "Not provided",
+      blood_type: profile?.blood_type || "Not provided",
+      bio: community?.bio || "Not provided",
+      interests: community?.interests || "Not provided",
+      social_media_links: community?.social_media_links || "Not provided",
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+// Fetch user donation history
+// exports.getDonationHistory = async (req, res) => {
+//   const { user_id } = req.params;
+//   try {
+//     const donations = await Donation.findAll({
+//       where: { user_id },
+//       order: [["donation_date", "DESC"]],
+//     });
+
+//     res.status(200).json(donations);
+//   } catch (error) {
+//     res.status(500).json({ error: error.message });
+//   }
+// };
+
+// Fetch upcoming events
+// exports.getUpcomingEvents = async (req, res) => {
+//   try {
+//     const events = await Event.findAll({
+//       where: {
+//         event_date: { [Op.gte]: new Date() }, // Fetch future events
+//       },
+//       order: [["event_date", "ASC"]],
+//     });
+
+//     res.status(200).json(events);
+//   } catch (error) {
+//     res.status(500).json({ error: error.message });
+//   }
+// };
+
 // Complete profile
 exports.completeProfile = async (req, res) => {
   const { user_id } = req.params;
@@ -57,7 +118,6 @@ exports.submitMedicalInfo = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
-
 
 // Configure Multer for file uploads
 const storage = multer.diskStorage({
