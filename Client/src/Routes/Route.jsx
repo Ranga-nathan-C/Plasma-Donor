@@ -1,7 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 import Login from "../Login";
 import Home from "../Home";
-
+import PlasmaRequestForm from "../components/RequestForm/PlasmaRequestForm";
 import Registration from "../components/Registration/Registration";
 import Verification from "../components/Registration/Verification";
 import Profile from "../components/Registration/Profile";
@@ -29,6 +29,10 @@ const router = createBrowserRouter([
   {
     path: "/dashboard",
     element: <Dashboard />,
+  },
+  {
+    path: "/raiserequest",
+    element: <PlasmaRequestForm />,
   },
   {
     path: "/ContactUs",

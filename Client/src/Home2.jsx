@@ -1,4 +1,3 @@
-import "./App.css";
 import CountUp from 'react-countup';
 import medicine from './assets/medicine-3493701_1280.jpg';
 import donor from './assets/earth-4861456_1280.jpg';

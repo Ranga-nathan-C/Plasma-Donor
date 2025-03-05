@@ -20,7 +20,10 @@
     "sequelize": "^6.37.5"
   },
   "devDependencies": {
-    "sequelize-cli": "^6.6.2"
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.5.3",
+    "sequelize-cli": "^6.6.2",
+    "tailwindcss": "^4.0.9"
   },
   "description": ""
 }

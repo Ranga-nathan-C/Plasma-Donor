@@ -1,5 +1,4 @@
 import image from './assets/2413849.png'
-import './App.css';
 const ContactUs = () => {
     return (
         <div className='bg1'>
