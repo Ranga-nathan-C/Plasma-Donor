@@ -51,20 +51,20 @@ const PlasmaRequestForm = () => {
 
   const donationResources = [
     {
-      icon: <Droplet className="text-red-500 w-6 h-6" />,
+      icon: <Droplet className="w-6 h-6 text-red-500" />,
       title: "Plasma Donation Facts",
       description: "One plasma donation can help up to 3 patients in need.",
       link: "https://www.redcrossblood.org/donate-blood/how-to-donate/types-of-blood-donations/plasma-donation.html",
     },
     {
-      icon: <Heart className="text-red-500 w-6 h-6" />,
+      icon: <Heart className="w-6 h-6 text-red-500" />,
       title: "Who Can Donate",
       description:
         "Most healthy adults can donate. Age and weight requirements apply.",
       link: "https://www.mayoclinic.org/healthy-lifestyle/health-management/in-depth/donate-plasma/art-20045406",
     },
     {
-      icon: <Clock className="text-red-500 w-6 h-6" />,
+      icon: <Clock className="w-6 h-6 text-red-500" />,
       title: "Donation Process",
       description: "Typically takes 1-2 hours. Compensation may be available.",
       link: "https://www.donatingplasma.org/donation/the-donation-process",
@@ -72,31 +72,31 @@ const PlasmaRequestForm = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
-      <div className="w-full max-w-6xl bg-white shadow-2xl rounded-2xl overflow-hidden grid grid-cols-1 md:grid-cols-3">
+    <div className="flex items-center justify-center min-h-screen p-4 bg-gray-50">
+      <div className="grid w-full max-w-6xl grid-cols-1 overflow-hidden bg-white shadow-2xl rounded-2xl md:grid-cols-3">
         {/* Donation Resources Sidebar */}
-        <div className="md:col-span-1 bg-gradient-to-br from-red-600 to-red-800 p-6 text-white">
-          <h3 className="text-2xl font-bold flex items-center gap-3 mb-6">
+        <div className="p-6 text-white md:col-span-1 bg-gradient-to-br from-red-600 to-red-800">
+          <h3 className="flex items-center gap-3 mb-6 text-2xl font-bold">
             <Info className="w-8 h-8" /> Donation Resources
           </h3>
           <div className="space-y-4">
             {donationResources.map((resource, index) => (
               <div
                 key={index}
-                className="bg-white/10 p-4 rounded-lg border border-white/20 hover:bg-white/20 transition-all"
+                className="p-4 transition-all border rounded-lg bg-white/10 border-white/20 hover:bg-white/20"
               >
                 <div className="flex items-center gap-3 mb-2">
                   {resource.icon}
-                  <h4 className="font-semibold text-lg">{resource.title}</h4>
+                  <h4 className="text-lg font-semibold">{resource.title}</h4>
                 </div>
-                <p className="text-sm opacity-80 mb-3">
+                <p className="mb-3 text-sm opacity-80">
                   {resource.description}
                 </p>
                 <a
                   href={resource.link}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-block text-white bg-red-500 hover:bg-red-600 px-3 py-1 rounded-full text-xs transition-colors"
+                  className="inline-block px-3 py-1 text-xs text-white transition-colors bg-red-500 rounded-full hover:bg-red-600"
                 >
                   Learn More
                 </a>
@@ -106,8 +106,8 @@ const PlasmaRequestForm = () => {
         </div>
 
         {/* Plasma Request Form */}
-        <div className="md:col-span-2 p-6 md:p-10">
-          <h2 className="text-3xl font-extrabold text-red-700 text-center mb-6 uppercase tracking-widest">
+        <div className="p-6 md:col-span-2 md:p-10">
+          <h2 className="mb-6 text-3xl font-extrabold tracking-widest text-center text-red-700 uppercase">
             Request Plasma Donation
           </h2>
 
@@ -143,11 +143,11 @@ const PlasmaRequestForm = () => {
 
           {/* Form */}
           <form onSubmit={handleSubmit}>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
               {/* Left Column */}
               <div className="space-y-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block mb-2 text-sm font-medium text-gray-700">
                     Patient Name
                   </label>
                   <input
@@ -162,7 +162,7 @@ const PlasmaRequestForm = () => {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block mb-2 text-sm font-medium text-gray-700">
                     Blood Group
                   </label>
                   <input
@@ -177,7 +177,7 @@ const PlasmaRequestForm = () => {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block mb-2 text-sm font-medium text-gray-700">
                     Location
                   </label>
                   <input
@@ -192,7 +192,7 @@ const PlasmaRequestForm = () => {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block mb-2 text-sm font-medium text-gray-700">
                     Contact
                   </label>
                   <input
@@ -212,7 +212,7 @@ const PlasmaRequestForm = () => {
                 {requestType === "others" && (
                   <>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                      <label className="block mb-2 text-sm font-medium text-gray-700">
                         Requester Name
                       </label>
                       <input
@@ -225,7 +225,7 @@ const PlasmaRequestForm = () => {
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                      <label className="block mb-2 text-sm font-medium text-gray-700">
                         Relation to Patient
                       </label>
                       <input
@@ -242,7 +242,7 @@ const PlasmaRequestForm = () => {
                 {requestType === "hospital" && (
                   <>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                      <label className="block mb-2 text-sm font-medium text-gray-700">
                         Hospital Name
                       </label>
                       <input
@@ -255,7 +255,7 @@ const PlasmaRequestForm = () => {
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                      <label className="block mb-2 text-sm font-medium text-gray-700">
                         Number of Patients
                       </label>
                       <input
@@ -271,9 +271,9 @@ const PlasmaRequestForm = () => {
               </div>
 
               {/* Full Width Inputs */}
-              <div className="col-span-1 md:col-span-2 space-y-4">
+              <div className="col-span-1 space-y-4 md:col-span-2">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block mb-2 text-sm font-medium text-gray-700">
                     Urgency Level
                   </label>
                   <select
@@ -288,7 +288,7 @@ const PlasmaRequestForm = () => {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block mb-2 text-sm font-medium text-gray-700">
                     Additional Message
                   </label>
                   <textarea
@@ -302,13 +302,13 @@ const PlasmaRequestForm = () => {
                 {/* Submit Button */}
                 <button
                   type="submit"
-                  className="w-full bg-red-600 text-white py-3 rounded-md hover:bg-red-700 transition-colors flex items-center justify-center"
+                  className="flex items-center justify-center w-full py-3 text-white transition-colors bg-red-600 rounded-md hover:bg-red-700"
                   disabled={loading}
                 >
                   {loading ? (
                     <>
                       <svg
-                        className="animate-spin h-5 w-5 mr-3"
+                        className="w-5 h-5 mr-3 animate-spin"
                         viewBox="0 0 24 24"
                       >
                         <circle
