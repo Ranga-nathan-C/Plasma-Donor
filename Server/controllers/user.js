@@ -154,7 +154,7 @@ exports.submitVerification = [
         : null;
 
       // Save verification data to the database
-      const verification = await Verification.create({
+      const user = await Verification.create({
         user_id,
         government_id_url,
         photograph_url,
@@ -164,7 +164,7 @@ exports.submitVerification = [
 
       res.status(201).json({
         message: "Verification submitted successfully",
-        verification,
+        user,
       });
     } catch (error) {
       res.status(500).json({ error: error.message });

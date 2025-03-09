@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { HeartPulse, Eye, EyeOff } from "lucide-react";
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:3000";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
@@ -51,146 +53,216 @@ const Login = () => {
 
       const data = await response.json();
 
-      // Store token and user data in localStorage
+      // Store user data in sessionStorage
       sessionStorage.setItem("user", JSON.stringify(data));
-      console.log("Login successful");
-      navigate("/dashboard"); // Redirect to the home page
+
+      // Get the user ID from the response data
+      const userId = data.user.id;
+
+      // Get user's current location
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          async (position) => {
+            const latitude = position.coords.latitude;
+            const longitude = position.coords.longitude;
+
+            // Update user status and location
+            try {
+              const statusResponse = await fetch(
+                `${BACKEND_URL}/api/userstatus/${userId}`,
+                {
+                  method: "PUT",
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                  body: JSON.stringify({
+                    userId,
+                    isOnline: true,
+                    latitude,
+                    longitude,
+                  }),
+                }
+              );
+
+              if (!statusResponse.ok) {
+                console.error("Failed to update user status and location");
+              }
+              const data = await statusResponse.json();
+              console.log(data)
+            } catch (error) {
+              console.error("Error updating user status and location:", error);
+            }
+
+            // Continue with navigation after status update attempt
+            console.log("Login successful");
+            navigate("/dashboard");
+          },
+          (error) => {
+            // If user denies location permission, still update status without location
+            console.warn("Geolocation error:", error);
+            updateUserStatusOnly(userId);
+          },
+          { timeout: 10000 }
+        );
+      } else {
+        // Fallback if geolocation is not supported
+        console.warn("Geolocation is not supported by this browser");
+        updateUserStatusOnly(userId);
+      }
     } catch (error) {
       console.error("Login failed:", error);
     }
   };
 
+  // Helper function to update only the user status if location is unavailable
+  const updateUserStatusOnly = async (userId) => {
+    try {
+      const response = await fetch(`${BACKEND_URL}/api/userstatus/${userId}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          userId,
+          isOnline: true,
+        }),
+      });
+
+      if (!response.ok) {
+        console.error("Failed to update user status");
+      }
+    } catch (error) {
+      console.error("Error updating user status:", error);
+    }
+
+    // Continue with navigation
+    console.log("Login successful");
+    navigate("/dashboard");
+  };
+
   return (
-    <div className="container-fluid bg1">
-      <div
-        className="modal modal-sheet position-static d-block"
-        tabIndex="-1"
-        role="dialog"
-        id="modalSignin"
-      >
-        <div>
-          <nav
-            className="navbar navbar-expand-md navbar-Light"
-            aria-label="Fourth navbar example"
-          >
-            <div className="container-fluid">
-              <div className="col-md-3 mb-2 mb-md-0">
-                <a
-                  href="/"
-                  className="d-inline-flex link-body-emphasis text-decoration-none"
-                >
-                  <svg
-                    className="bi mx-3 me-2"
-                    width="40"
-                    height="32"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="dark"
-                    viewBox="0 0 16 16"
-                  >
-                    <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053.918 3.995.78 5.323 1.508 7H.43c-2.128-5.697 4.165-8.83 7.394-5.857q.09.083.176.171a3 3 0 0 1 .176-.17c3.23-2.974 9.522.159 7.394 5.856h-1.078c.728-1.677.59-3.005.108-3.947C13.486.878 10.4.28 8.717 2.01zM2.212 10h1.315C4.593 11.183 6.05 12.458 8 13.795c1.949-1.337 3.407-2.612 4.473-3.795h1.315c-1.265 1.566-3.14 3.25-5.788 5-2.648-1.75-4.523-3.434-5.788-5" />
-                    <path d="M10.464 3.314a.5.5 0 0 0-.945.049L7.921 8.956 6.464 5.314a.5.5 0 0 0-.88-.091L3.732 8H.5a.5.5 0 0 0 0 1H4a.5.5 0 0 0 .416-.223l1.473-2.209 1.647 4.118a.5.5 0 0 0 .945-.049l1.598-5.593 1.457 3.642A.5.5 0 0 0 12 9h3.5a.5.5 0 0 0 0-1h-3.162z" />
-                  </svg>
-                  <span className="text-dark fs-4">PlasmaCare</span>
-                </a>
-              </div>
-              <button
-                className="navbar-toggler"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#navbarsExample04"
-                aria-controls="navbarsExample04"
-                aria-expanded="false"
-                aria-label="Toggle navigation"
-              >
-                <span className="navbar-toggler-icon"></span>
-              </button>
-
-              <div className="collapse navbar-collapse" id="navbarsExample04">
-                <ul className="navbar-nav me-auto mb-2 mb-md-0"></ul>
-                <form className="col-md-3 text-end">
-                  <a
-                    href="/Login"
-                    className="btn btn-primary btn-sm px-4 login w-30 h-30 me-md-2 fw-bold"
-                  >
-                    Login
-                  </a>
-                  <a
-                    href="/Signup"
-                    className="btn btn-primary btn-sm px-4 w-30 h-30 me-md-2 fw-bold"
-                  >
-                    Sign up
-                  </a>
-                </form>
-              </div>
-            </div>
-          </nav>
-        </div>
-        <div className="modal-dialog" role="document">
-          <div className="modal-content mt-1 rounded-4 shadow">
-            <div className="modal-header p-4 pb-4 border-bottom-0">
-              <svg
-                className="bi mx-3 me-2"
-                width="40"
-                height="32"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="currentColor"
-                viewBox="0 0 16 16"
-              >
-                <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053.918 3.995.78 5.323 1.508 7H.43c-2.128-5.697 4.165-8.83 7.394-5.857q.09.083.176.171a3 3 0 0 1 .176-.17c3.23-2.974 9.522.159 7.394 5.856h-1.078c.728-1.677.59-3.005.108-3.947C13.486.878 10.4.28 8.717 2.01zM2.212 10h1.315C4.593 11.183 6.05 12.458 8 13.795c1.949-1.337 3.407-2.612 4.473-3.795h1.315c-1.265 1.566-3.14 3.25-5.788 5-2.648-1.75-4.523-3.434-5.788-5" />
-                <path d="M10.464 3.314a.5.5 0 0 0-.945.049L7.921 8.956 6.464 5.314a.5.5 0 0 0-.88-.091L3.732 8H.5a.5.5 0 0 0 0 1H4a.5.5 0 0 0 .416-.223l1.473-2.209 1.647 4.118a.5.5 0 0 0 .945-.049l1.598-5.593 1.457 3.642A.5.5 0 0 0 12 9h3.5a.5.5 0 0 0 0-1h-3.162z" />
-              </svg>
-              <h1 className="fw-bold mb-0 fs-2">Login</h1>
-              <button
-                type="button"
-                className="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
-            </div>
-
-            <div className="modal-body p-5 pt-0">
-              <form onSubmit={handleSubmit}>
-                <div className="form-floating mb-3">
-                  <input
-                    type="email"
-                    className="form-control rounded-3"
-                    id="floatingInput"
-                    placeholder="name@example.com"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                  />
-                  <label htmlFor="floatingInput">Email address</label>
-                </div>
-                <div className="form-floating mb-3">
-                  <input
-                    type="password"
-                    className="form-control rounded-3"
-                    id="floatingPassword"
-                    placeholder="Password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                  />
-                  <label htmlFor="floatingPassword">Password</label>
-                </div>
-                {error && <p className="text-danger">{error}</p>}
-                <p>
-                  Don&apos;t have an account?{" "}
-                  <a
-                    href="/Register"
-                    className="btn-light btn-sm sign w-30 h-30 me-md-2 fw-bold"
-                  >
-                    Sign up
-                  </a>
-                </p>
-                <button
-                  className="w-100 mb-2 btn btn-lg rounded-3 btn-primary"
-                  type="submit"
-                >
-                  Sign in
-                </button>
-              </form>
-            </div>
+    <div className="flex items-center justify-center min-h-screen px-4 py-8 bg-gradient-to-br from-red-50 to-red-100">
+      <div className="w-full max-w-md">
+        {/* Navbar */}
+        <nav className="flex items-center justify-between mb-8">
+          <div className="flex items-center">
+            <HeartPulse className="mr-2 text-red-500" size={40} />
+            <span className="text-2xl font-bold text-red-600">PlasmaCare</span>
           </div>
+          <div className="space-x-2">
+            <a
+              href="/Login"
+              className="px-4 py-2 text-white transition bg-red-500 rounded-lg hover:bg-red-600"
+            >
+              Login
+            </a>
+            <a
+              href="/Signup"
+              className="px-4 py-2 text-white transition bg-red-500 rounded-lg hover:bg-red-600"
+            >
+              Sign up
+            </a>
+          </div>
+        </nav>
+
+        {/* Login Form */}
+        <div className="p-8 bg-white shadow-2xl rounded-xl">
+          <div className="flex items-center mb-6">
+            <HeartPulse className="mr-3 text-red-500" size={32} />
+            <h2 className="text-3xl font-bold text-gray-800">Login</h2>
+          </div>
+
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div>
+              <label
+                htmlFor="email"
+                className="block mb-2 text-sm font-medium text-gray-700"
+              >
+                Email address
+              </label>
+              <input
+                type="email"
+                id="email"
+                className="w-full px-4 py-2 transition duration-300 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
+                placeholder="name@example.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </div>
+
+            <div className="relative">
+              <label
+                htmlFor="password"
+                className="block mb-2 text-sm font-medium text-gray-700"
+              >
+                Password
+              </label>
+              <input
+                type={showPassword ? "text" : "password"}
+                id="password"
+                className="w-full px-4 py-2 pr-10 transition duration-300 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
+                placeholder="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+              <button
+                type="button"
+                className="absolute text-gray-500 transition transform -translate-y-1/2 right-3 top-10 hover:text-red-500"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {showPassword ? (
+                  <EyeOff className="w-5 h-5" />
+                ) : (
+                  <Eye className="w-5 h-5" />
+                )}
+              </button>
+            </div>
+
+            {error && (
+              <div className="px-4 py-3 text-red-700 border border-red-300 rounded-lg bg-red-50">
+                {error}
+              </div>
+            )}
+
+            <div className="flex items-center justify-between">
+              <div className="flex items-center">
+                <input
+                  id="remember-me"
+                  type="checkbox"
+                  className="w-4 h-4 text-red-600 border-gray-300 rounded focus:ring-red-500"
+                />
+                <label
+                  htmlFor="remember-me"
+                  className="block ml-2 text-sm text-gray-900"
+                >
+                  Remember me
+                </label>
+              </div>
+
+              <a href="#" className="text-sm text-red-600 hover:text-red-500">
+                Forgot password?
+              </a>
+            </div>
+
+            <button
+              type="submit"
+              className="flex items-center justify-center w-full py-3 space-x-2 text-white transition duration-300 transform bg-red-500 rounded-lg hover:bg-red-600 active:scale-95"
+            >
+              <span>Sign In</span>
+            </button>
+
+            <div className="mt-4 text-center">
+              <p className="text-sm text-gray-600">
+                Don't have an account?{" "}
+                <a
+                  href="/Register"
+                  className="font-medium text-red-600 hover:text-red-500"
+                >
+                  Sign up
+                </a>
+              </p>
+            </div>
+          </form>
         </div>
       </div>
     </div>

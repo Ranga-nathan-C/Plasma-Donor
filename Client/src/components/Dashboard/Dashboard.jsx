@@ -98,12 +98,14 @@ export default function Dashboard() {
         </motion.div>
 
         {/* Call to Action */}
-        <motion.div
-          className="w-full max-w-xl px-8 py-4 mt-8 text-xl font-bold text-center text-white bg-red-500 rounded-lg shadow-md cursor-pointer hover:bg-red-600"
-          whileHover={{ scale: 1.05 }}
-        >
-          Raise Blood/Plasma Request
-        </motion.div>
+        <a href="/raiserequest">
+          <motion.div
+            className="w-full max-w-xl px-8 py-4 mt-8 text-xl font-bold text-center text-white bg-red-500 rounded-lg shadow-md cursor-pointer hover:bg-red-600 underline:none"
+            whileHover={{ scale: 1.05 }}
+          >
+            Raise Blood/Plasma Request
+          </motion.div>
+        </a>
 
         {/* Statistics Section */}
         <motion.div
