@@ -37,8 +37,8 @@ export default function Dashboard() {
         <motion.div
           className="w-full max-w-3xl p-8 text-center bg-white shadow-lg rounded-xl"
           initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.5 }}
+          animate={{ opacity: 0.9, scale: 1 }}
+          transition={{ duration: 1 }}
         >
           <h1 className="text-3xl font-bold text-red-600">
             Hello, {userData?.name || "User"} ❤️
@@ -53,7 +53,7 @@ export default function Dashboard() {
           className="grid w-full max-w-4xl grid-cols-1 gap-6 mt-8 md:grid-cols-2 lg:grid-cols-3"
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
+          transition={{ duration: 0.5, delay: 1 }}
         >
           <InfoCard
             icon={<FaEnvelope />}
@@ -68,7 +68,7 @@ export default function Dashboard() {
           <InfoCard
             icon={<FaBirthdayCake />}
             label="DOB"
-            value={userData?.dob || "Not provided"}
+            value={new Date(userData?.dob).toDateString() || "Not provided"}
           />
           <InfoCard
             icon={<FaUser />}
@@ -110,9 +110,9 @@ export default function Dashboard() {
         {/* Statistics Section */}
         <motion.div
           className="grid w-full max-w-4xl grid-cols-2 gap-6 mt-10 md:grid-cols-4"
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
+          initial={{ opacity: 0, x: 50 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.9 }}
         >
           <StatCard
             icon={<FaTrophy className="text-yellow-500" />}
