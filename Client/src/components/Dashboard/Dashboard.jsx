@@ -32,25 +32,27 @@ export default function Dashboard() {
   return (
     <div className="min-h-screen text-gray-800 bg-gray-50">
       <Navbar />
-      <div className="container flex flex-col items-center px-4 py-10 mx-auto">
+
+      {/* Main container with responsive padding */}
+      <div className="container flex flex-col items-center px-4 py-6 mx-auto sm:px-6 lg:px-8">
         {/* Welcome Card */}
         <motion.div
-          className="w-full max-w-3xl p-8 text-center bg-white shadow-lg rounded-xl"
+          className="w-full max-w-3xl p-6 text-center bg-white shadow-lg rounded-xl sm:p-8"
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 0.9, scale: 1 }}
           transition={{ duration: 1 }}
         >
-          <h1 className="text-3xl font-bold text-red-600">
+          <h1 className="text-2xl font-bold text-red-600 sm:text-3xl">
             Hello, {userData?.name || "User"} ❤️
           </h1>
-          <p className="mt-2 text-lg text-gray-600">
+          <p className="mt-2 text-sm text-gray-600 sm:text-lg">
             {userData?.bio || "No bio available"}
           </p>
         </motion.div>
 
         {/* User Information Cards */}
         <motion.div
-          className="grid w-full max-w-4xl grid-cols-1 gap-6 mt-8 md:grid-cols-2 lg:grid-cols-3"
+          className="grid w-full max-w-6xl grid-cols-1 gap-4 mt-6 sm:gap-6 md:grid-cols-2 lg:grid-cols-3"
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 1 }}
@@ -68,7 +70,11 @@ export default function Dashboard() {
           <InfoCard
             icon={<FaBirthdayCake />}
             label="DOB"
-            value={new Date(userData?.dob).toDateString() || "Not provided"}
+            value={
+              userData?.dob
+                ? new Date(userData.dob).toDateString()
+                : "Not provided"
+            }
           />
           <InfoCard
             icon={<FaUser />}
@@ -97,10 +103,10 @@ export default function Dashboard() {
           />
         </motion.div>
 
-        {/* Call to Action */}
-        <a href="/raiserequest">
+        {/* Call to Action Button */}
+        <a href="/raiserequest" className="w-full max-w-xs mt-8 sm:max-w-sm">
           <motion.div
-            className="w-full max-w-xl px-8 py-4 mt-8 text-xl font-bold text-center text-white bg-red-500 rounded-lg shadow-md cursor-pointer hover:bg-red-600 underline:none"
+            className="px-6 py-4 text-base font-bold text-center text-white bg-red-500 rounded-lg shadow-md cursor-pointer hover:bg-red-600 sm:text-lg md:text-xl"
             whileHover={{ scale: 1.05 }}
           >
             Raise Blood/Plasma Request
@@ -109,7 +115,7 @@ export default function Dashboard() {
 
         {/* Statistics Section */}
         <motion.div
-          className="grid w-full max-w-4xl grid-cols-2 gap-6 mt-10 md:grid-cols-4"
+          className="grid w-full max-w-6xl grid-cols-2 gap-4 mt-10 sm:gap-6 md:grid-cols-4"
           initial={{ opacity: 0, x: 50 }}
           whileInView={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.9 }}
@@ -138,25 +144,31 @@ export default function Dashboard() {
 
         {/* Donation History */}
         <motion.div
-          className="w-full max-w-2xl p-6 mt-10 bg-white rounded-lg shadow-lg"
+          className="w-full max-w-2xl p-4 mt-10 bg-white rounded-lg shadow-lg sm:p-6"
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.3 }}
         >
-          <h2 className="mb-3 text-xl font-bold text-red-600">
+          <h2 className="mb-3 text-lg font-bold text-red-600 sm:text-xl">
             Your Donation History
           </h2>
+
           {donationHistory.length > 0 ? (
             <ul className="text-gray-700">
               {donationHistory.map((donation, index) => (
-                <li key={index} className="py-3 border-b border-gray-300">
+                <li
+                  key={index}
+                  className="py-3 text-sm border-b border-gray-300 sm:text-base"
+                >
                   <span className="font-bold">{donation.date}:</span> Donated{" "}
                   {donation.amount}ml to {donation.hospital}
                 </li>
               ))}
             </ul>
           ) : (
-            <p className="text-gray-600">No donations made yet.</p>
+            <p className="text-sm text-gray-600 sm:text-base">
+              No donations made yet.
+            </p>
           )}
         </motion.div>
       </div>
@@ -168,13 +180,13 @@ export default function Dashboard() {
 function InfoCard({ icon, label, value }) {
   return (
     <motion.div
-      className="flex items-center p-5 space-x-4 transition-all bg-white border border-gray-200 rounded-lg shadow-md hover:shadow-lg"
+      className="flex items-center p-4 space-x-3 transition-all bg-white border border-gray-200 rounded-lg shadow-md hover:shadow-lg sm:p-5"
       whileHover={{ scale: 1.05 }}
     >
-      <div className="text-3xl text-red-500">{icon}</div>
+      <div className="text-2xl text-red-500 sm:text-3xl">{icon}</div>
       <div>
-        <h3 className="text-lg font-bold">{label}</h3>
-        <p className="text-gray-600">{value}</p>
+        <h3 className="text-sm font-bold sm:text-lg">{label}</h3>
+        <p className="text-xs text-gray-600 sm:text-sm">{value}</p>
       </div>
     </motion.div>
   );
@@ -184,12 +196,12 @@ function InfoCard({ icon, label, value }) {
 function StatCard({ icon, label, value }) {
   return (
     <motion.div
-      className="flex flex-col items-center p-5 transition-all bg-white border border-gray-200 rounded-lg shadow-md hover:shadow-lg"
+      className="flex flex-col items-center p-4 transition-all bg-white border border-gray-200 rounded-lg shadow-md hover:shadow-lg sm:p-5"
       whileHover={{ scale: 1.05 }}
     >
-      <div className="mb-2 text-4xl">{icon}</div>
-      <h3 className="text-lg font-bold">{value}</h3>
-      <p className="text-sm text-gray-600">{label}</p>
+      <div className="mb-1 text-3xl sm:text-4xl">{icon}</div>
+      <h3 className="text-base font-bold sm:text-lg">{value}</h3>
+      <p className="text-xs text-gray-600 sm:text-sm">{label}</p>
     </motion.div>
   );
 }

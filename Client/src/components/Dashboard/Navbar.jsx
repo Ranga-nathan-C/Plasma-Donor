@@ -1,63 +1,64 @@
-import React from "react";
+import React, { useState } from "react";
 import { HeartIcon, Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
-import { useState } from "react";
 import { UserCircle, Settings, LogOut } from "lucide-react";
+
 export default function Navbar() {
-  const [isOpen, setIsOpen] = useState(false);
-  const [showDropdown, setShowDropdown] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [userDropdownOpen, setUserDropdownOpen] = useState(false);
+
   const BACKEND_URL =
     import.meta.env.VITE_BACKEND_URL || "http://localhost:3000";
-  const userId = JSON.parse(sessionStorage.getItem("user")).user.id;
+
+  const storedUser = JSON.parse(sessionStorage.getItem("user"));
+  const userId = storedUser?.user?.id;
 
   const handleLogout = async () => {
     try {
-      const response = await fetch(`${BACKEND_URL}/api/userstatus/${userId}`, {
+      await fetch(`${BACKEND_URL}/api/userstatus/${userId}`, {
         method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          isOnline: false,
-        }),
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ isOnline: false }),
       });
 
       sessionStorage.removeItem("user");
       window.location.href = "/login";
-      const data = await response.json();
-      console.log(data);
     } catch (error) {
       console.error("Error updating user status:", error);
-      throw error;
     }
   };
 
   return (
     <nav className="sticky top-0 z-50 bg-white shadow-md">
-      <div className="container flex items-center justify-between p-4 mx-auto">
+      <div className="container mx-auto flex items-center justify-between p-4">
+        {/* Logo */}
         <a
           href="/"
           className="flex items-center text-xl font-bold text-red-600"
         >
-          <HeartIcon className="w-8 h-8 mr-2 text-red-500" /> PlasmaCare
+          <HeartIcon className="mr-2 h-8 w-8 text-red-500" />
+          PlasmaCare
         </a>
 
+        {/* Mobile Menu Toggle */}
         <button
-          className="text-gray-700 md:hidden"
-          onClick={() => setIsOpen(!isOpen)}
+          className="text-gray-700 md:hidden focus:outline-none"
+          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          aria-label="Toggle menu"
         >
-          {isOpen ? (
-            <XMarkIcon className="w-6 h-6" />
+          {mobileMenuOpen ? (
+            <XMarkIcon className="h-6 w-6" />
           ) : (
-            <Bars3Icon className="w-6 h-6" />
+            <Bars3Icon className="h-6 w-6" />
           )}
         </button>
 
+        {/* Main Menu */}
         <div
-          className={`md:flex space-x-6 ${
-            isOpen ? "block" : "hidden"
-          } w-full md:w-auto mt-4 md:mt-0`}
+          className={`${
+            mobileMenuOpen ? "block" : "hidden"
+          } w-full mt-4 md:mt-0 md:flex md:w-auto md:space-x-6`}
         >
-          <ul className="space-x-6 font-medium text-gray-700 md:flex">
+          <ul className="flex flex-col space-y-4 md:flex-row md:space-y-0 md:space-x-6 font-medium text-gray-700">
             <li>
               <a href="/" className="transition hover:text-red-500">
                 Home
@@ -86,17 +87,25 @@ export default function Navbar() {
           </ul>
         </div>
 
+        {/* Raise Request Button */}
         <a
           href="/raiserequest"
-          className="hidden px-4 py-2 font-semibold text-white transition bg-red-500 rounded-lg md:inline-block hover:bg-red-600"
+          className="hidden md:inline-block px-4 py-2 rounded-lg font-semibold text-white bg-red-500 hover:bg-red-600 transition"
         >
           Raise Request
         </a>
+
+        {/* User Profile Dropdown */}
         <div
-          onMouseEnter={() => setShowDropdown(true)}
-          onMouseLeave={() => setShowDropdown(false)}
+          className="relative ml-4"
+          onMouseEnter={() => setUserDropdownOpen(true)}
+          onMouseLeave={() => setUserDropdownOpen(false)}
         >
-          <button className="flex items-center text-gray-700 hover:text-gray-900 focus:outline-none">
+          <button
+            className="flex items-center text-gray-700 hover:text-gray-900 focus:outline-none"
+            aria-haspopup="true"
+            aria-expanded={userDropdownOpen}
+          >
             <UserCircle
               size={32}
               className="text-gray-600 hover:text-gray-800"
@@ -104,8 +113,8 @@ export default function Navbar() {
           </button>
 
           {/* Dropdown Menu */}
-          {showDropdown && (
-            <div className="absolute right-0 z-10 w-48 py-1 mt-2 bg-white rounded-md shadow-lg">
+          {userDropdownOpen && (
+            <div className="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white py-1 z-10">
               <a
                 href="/profile"
                 className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"

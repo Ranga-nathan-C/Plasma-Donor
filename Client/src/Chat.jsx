@@ -92,11 +92,18 @@ Be clear and concise (max 4 lines).
       </div>
 
       {isChatOpen && (
-        <div className="fixed z-50 flex flex-col bg-white border border-gray-300 shadow-2xl rounded-xl bottom-4 right-4 w-96 h-[500px]">
+        <div
+          className="fixed z-50 flex flex-col bg-white border border-gray-300 shadow-2xl rounded-xl bottom-4 right-4
+          w-[90%] sm:w-80 md:w-96 max-w-full
+          h-[70vh] sm:h-[500px] 
+          "
+        >
           {/* Header */}
           <div className="relative flex items-center justify-center px-4 py-3 bg-red-500 text-white rounded-t-xl">
-            <FaHeartbeat className="mr-2" size={40} />
-            <h2 className="text-lg font-semibold">Plasma Donation Chat</h2>
+            <FaHeartbeat className="mr-2" size={30} />
+            <h2 className="text-sm sm:text-base md:text-lg font-semibold">
+              Plasma Donation Chat
+            </h2>
             <button
               onClick={() => setIsChatOpen(false)}
               className="absolute top-3 right-4 text-white hover:text-gray-200"
@@ -115,7 +122,7 @@ Be clear and concise (max 4 lines).
                 }`}
               >
                 <div
-                  className={`max-w-xs px-4 py-2 text-sm rounded-lg ${
+                  className={`max-w-[75%] px-4 py-2 text-xs sm:text-sm rounded-lg ${
                     index % 2 === 0
                       ? "bg-red-500 text-white"
                       : "bg-gray-200 text-gray-800"
@@ -132,7 +139,7 @@ Be clear and concise (max 4 lines).
 
           {/* Quick Questions */}
           {isQuestionOpen ? (
-            <div className="flex flex-wrap justify-start p-2 bg-white border-t border-gray-200 gap-2">
+            <div className="flex flex-wrap justify-start p-2 bg-white border-t border-gray-200 gap-2 relative">
               {quickQuestions.map((question, idx) => (
                 <button
                   key={idx}
@@ -144,18 +151,17 @@ Be clear and concise (max 4 lines).
               ))}
               <button
                 onClick={() => setIsQuestionOpen(false)}
-                className="absolute top-65 right-4 text-black hover:text-gray-200"
+                className="absolute top-2 right-2 text-black hover:text-gray-500"
               >
                 <AiOutlineClose size={20} />
               </button>
             </div>
           ) : (
-            <div>
+            <div className="flex justify-center py-2">
               <button
                 onClick={() => setIsQuestionOpen(true)}
                 className="text-xs px-3 py-1 border rounded-full bg-red-100 text-red-700 hover:bg-red-200 transition"
               >
-                {" "}
                 Questions
               </button>
             </div>
@@ -170,7 +176,7 @@ Be clear and concise (max 4 lines).
               type="text"
               value={prompt}
               onChange={(e) => setPrompt(e.target.value)}
-              className="flex-1 p-2 text-sm border border-gray-300 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-red-500"
+              className="flex-1 p-2 text-xs sm:text-sm border border-gray-300 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-red-500"
               placeholder="Ask about plasma donation..."
             />
             <button
